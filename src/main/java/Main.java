@@ -1,12 +1,13 @@
 import command.CommandRegistry;
 import command.Echo;
 import command.Exit;
+import command.Type;
 
 public class Main {
     public static void main(String[] args) {
-        new Shell(CommandRegistry.of(
-                new Exit(),
-                new Echo()
-        )).run();
+        CommandRegistry registry = CommandRegistry.of(new Exit(), new Echo());
+        registry.register(new Type(registry));
+
+        new Shell(registry).run();
     }
 }

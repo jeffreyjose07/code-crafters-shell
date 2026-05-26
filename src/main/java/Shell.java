@@ -18,12 +18,15 @@ public class Shell {
 
             if (!scanner.hasNextLine()) break;
             String input = scanner.nextLine().trim();
+            if (input.isEmpty()) continue;
+
             String[] parts = input.split(" ", 2);
             String commandName = parts[0];
+            String[] cmdArgs = parts.length > 1 ? parts[1].split(" ") : new String[0];
 
             registry.find(commandName)
                     .ifPresentOrElse(
-                            cmd -> cmd.execute(parts.length > 1 ? parts[1].split(" ") : new String[0]),
+                            cmd -> cmd.execute(cmdArgs),
                             () -> System.out.println(commandName + ": command not found"));
         }
     }
