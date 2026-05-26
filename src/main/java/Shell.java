@@ -1,13 +1,15 @@
 import command.CommandRegistry;
-import command.Exit;
 
 import java.util.Scanner;
 
 public class Shell {
-    private final CommandRegistry registry = new CommandRegistry();
+    private final CommandRegistry registry;
+
+    public Shell(CommandRegistry registry) {
+        this.registry = registry;
+    }
 
     public void run() {
-        registry.register(new Exit());
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
