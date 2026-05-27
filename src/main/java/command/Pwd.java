@@ -1,6 +1,5 @@
 package command;
 
-import java.nio.file.Path;
 
 public class Pwd implements Command {
     @Override
@@ -10,6 +9,6 @@ public class Pwd implements Command {
 
     @Override
     public void execute(String[] args) {
-        System.out.println(Path.of("").toAbsolutePath());
+        System.out.println(System.getProperty("user.dir"));
     }
 }

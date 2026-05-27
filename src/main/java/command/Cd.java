@@ -11,7 +11,7 @@ public class Cd implements Command{
 
     @Override
     public void execute(String[] args) {
-        Path target = Path.of(args[0]).toAbsolutePath().normalize();
+        Path target = Path.of(System.getProperty("user.dir")).resolve(args[0]).normalize();
         if (Files.isDirectory(target)) {
             System.setProperty("user.dir", target.toString());
         } else {
