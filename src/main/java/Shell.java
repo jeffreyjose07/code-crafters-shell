@@ -1,5 +1,10 @@
 import command.CommandRegistry;
+import utility.PathResolver;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Shell {
@@ -16,18 +21,30 @@ public class Shell {
             System.out.print("$ ");
             System.out.flush();
 
-            if (!scanner.hasNextLine()) break;
+            if (!scanner.hasNextLine()) {
+                break;
+            }
             String input = scanner.nextLine().trim();
-            if (input.isEmpty()) continue;
+            if (input.isEmpty()) {
+                continue;
+            }
 
             String[] parts = input.split(" ", 2);
             String commandName = parts[0];
             String[] cmdArgs = parts.length > 1 ? parts[1].split(" ") : new String[0];
 
             registry.find(commandName)
-                    .ifPresentOrElse(
-                            cmd -> cmd.execute(cmdArgs),
-                            () -> System.out.println(commandName + ": command not found"));
+                    .ifPresentOrElse(cmd -> cmd.execute(cmdArgs),
+                            () -> PathResolver.resolve(commandName).ifPresentOrElse(path -> {
+                                List<String> commandList = new ArrayList<>();
+                                commandList.add(path.toString());
+                                commandList.addAll(Arrays.asList(cmdArgs));
+                                try {
+                                    new ProcessBuilder(commandList).inheritIO().start().waitFor();
+                                } catch (IOException | InterruptedException e) {
+                                    System.err.println(e.getMessage());
+                                }
+                            }, () -> System.out.println(commandName + ": command not found")));
         }
     }
 }
