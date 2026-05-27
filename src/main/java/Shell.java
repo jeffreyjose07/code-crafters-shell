@@ -35,9 +35,9 @@ public class Shell {
 
             registry.find(commandName)
                     .ifPresentOrElse(cmd -> cmd.execute(cmdArgs),
-                            () -> PathResolver.resolve(commandName).ifPresentOrElse(path -> {
+                            () -> PathResolver.resolve(commandName).ifPresentOrElse(_ -> {
                                 List<String> commandList = new ArrayList<>();
-                                commandList.add(path.toString());
+                                commandList.add(commandName);
                                 commandList.addAll(Arrays.asList(cmdArgs));
                                 try {
                                     new ProcessBuilder(commandList).inheritIO().start().waitFor();
