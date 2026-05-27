@@ -7,6 +7,10 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public class PathResolver {
+    private PathResolver() {
+        /* This utility class should not be instantiated */
+    }
+
     public static Optional<Path> resolve(String commandName) {
         return Arrays.stream(System.getenv("PATH").split(File.pathSeparator))
                 .map(dir -> Path.of(dir, commandName))

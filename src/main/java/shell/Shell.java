@@ -1,6 +1,7 @@
 package shell;
 
 import command.CommandRegistry;
+import utility.InputParser;
 import utility.PathResolver;
 
 import java.io.IOException;
@@ -27,15 +28,12 @@ public class Shell {
                 break;
             }
             String input = scanner.nextLine().trim();
-            if (input.isEmpty()) {
-                continue;
+            if (!input.isEmpty()) {
+                String[] tokens = InputParser.parse(input);
+                String commandName = tokens[0];
+                String[] cmdArgs = Arrays.copyOfRange(tokens, 1, tokens.length);
+                dispatch(commandName, cmdArgs);
             }
-
-            String[] parts = input.split(" ", 2);
-            String commandName = parts[0];
-            String[] cmdArgs = parts.length > 1 ? parts[1].split(" ") : new String[0];
-
-            dispatch(commandName, cmdArgs);
         }
     }
 
