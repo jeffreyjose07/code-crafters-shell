@@ -2,7 +2,7 @@ package command;
 
 import java.nio.file.Path;
 
-public class Pwd implements Command{
+public class Pwd implements Command {
     @Override
     public String name() {
         return "pwd";
@@ -10,7 +10,6 @@ public class Pwd implements Command{
 
     @Override
     public void execute(String[] args) {
-        String presentWorkingDirectory = Path.of("").toAbsolutePath().toString();
-        System.out.println(presentWorkingDirectory);
+        System.out.println(Path.of("").toAbsolutePath());
     }
 }
