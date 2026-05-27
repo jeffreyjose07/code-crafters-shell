@@ -1,6 +1,6 @@
 package command;
 
-public class Echo implements Command{
+public class Echo implements Command {
     @Override
     public String name() {
         return "echo";

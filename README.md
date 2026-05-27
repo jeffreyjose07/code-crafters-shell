@@ -1,7 +1,7 @@
 [![progress-banner](https://backend.codecrafters.io/progress/shell/2b570335-0000-491c-84e5-4493ca49e6b3)](https://app.codecrafters.io/users/jeffreyjose07?r=2qF)
 
 This is a starting point for Java solutions to the
-["Build Your Own Shell" Challenge](https://app.codecrafters.io/courses/shell/overview).
+["Build Your Own shell.Shell" Challenge](https://app.codecrafters.io/courses/shell/overview).
 
 In this challenge, you'll build your own POSIX compliant shell that's capable of
 interpreting shell commands, running external programs and builtin commands like
