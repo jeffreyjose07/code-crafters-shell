@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InputParser {
-    private InputParser() {
-        /* This utility class should not be instantiated */
-    }
+    private InputParser() {}
 
     public static String[] parse(String input) {
         List<String> tokens = new ArrayList<>();
@@ -16,12 +14,8 @@ public class InputParser {
         while (i < input.length()) {
             char c = input.charAt(i);
 
-            if (c == '\'') {
-                i++;
-                while (i < input.length() && input.charAt(i) != '\'') {
-                    current.append(input.charAt(i));
-                    i++;
-                }
+            if (c == '\'' || c == '"') {
+                i = consumeQuoted(c, input, i + 1, current);
             } else if (c == ' ') {
                 if (!current.isEmpty()) {
                     tokens.add(current.toString());
@@ -39,5 +33,14 @@ public class InputParser {
         }
 
         return tokens.toArray(String[]::new);
+    }
+
+    private static int consumeQuoted(char quote, String input, int start, StringBuilder current) {
+        int i = start;
+        while (i < input.length() && input.charAt(i) != quote) {
+            current.append(input.charAt(i));
+            i++;
+        }
+        return i;
     }
 }
