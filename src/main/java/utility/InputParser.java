@@ -19,8 +19,10 @@ public class InputParser {
                 if (i < input.length()) {
                     current.append(input.charAt(i));
                 }
-            } else if (c == '\'' || c == '"') {
-                i = consumeQuoted(c, input, i + 1, current);
+            } else if (c == '\'') {
+                i = consumeQuoted(input, i + 1, current);
+            } else if (c == '"') {
+                i = consumeDoubleQuoted(input, i + 1, current);
             } else if (c == ' ') {
                 if (!current.isEmpty()) {
                     tokens.add(current.toString());
@@ -40,11 +42,26 @@ public class InputParser {
         return tokens.toArray(String[]::new);
     }
 
-    private static int consumeQuoted(char quote, String input, int start, StringBuilder current) {
+    private static int consumeQuoted(String input, int start, StringBuilder current) {
         int i = start;
-        while (i < input.length() && input.charAt(i) != quote) {
+        while (i < input.length() && input.charAt(i) != '\'') {
             current.append(input.charAt(i));
             i++;
+        }
+        return i;
+    }
+
+    private static int consumeDoubleQuoted(String input, int start, StringBuilder current) {
+        int i = start;
+        while (i < input.length() && input.charAt(i) != '"') {
+            char c = input.charAt(i);
+            if (c == '\\' && i + 1 < input.length() && (input.charAt(i + 1) == '"' || input.charAt(i + 1) == '\\')) {
+                current.append(input.charAt(i + 1));
+                i += 2;
+            } else {
+                current.append(c);
+                i++;
+            }
         }
         return i;
     }
