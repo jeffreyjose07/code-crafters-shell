@@ -14,7 +14,12 @@ public class InputParser {
         while (i < input.length()) {
             char c = input.charAt(i);
 
-            if (c == '\'' || c == '"') {
+            if (c == '\\') {
+                i++;
+                if (i < input.length()) {
+                    current.append(input.charAt(i));
+                }
+            } else if (c == '\'' || c == '"') {
                 i = consumeQuoted(c, input, i + 1, current);
             } else if (c == ' ') {
                 if (!current.isEmpty()) {
